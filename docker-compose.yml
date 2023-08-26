@@ -13,10 +13,24 @@ services:
     depends_on:
       - php
   php:
-    image: php:8.2-fpm
+#    image: php:8.2-fpm
+    build:
+      dockerfile: ./php.Dockerfile
     environment:
       <<: *app-env
       FOO: ANOTHER
+      BAZZ: "Lorem ipsum"
     volumes:
       - .:/app
+
+  mysql:
+    image: mysql:8.1
+    ports:
+      - "23306:3306"
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - ./docker/mysql:/docker-entrypoint-initdb.d
+
 
