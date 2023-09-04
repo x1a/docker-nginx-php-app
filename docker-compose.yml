@@ -5,6 +5,7 @@ x-env: &app-env
 services:
   nginx:
     image: nginx:latest
+    container_name: sample-app-nginx-1
     ports:
       - 80:80
     volumes:
@@ -13,18 +14,22 @@ services:
     depends_on:
       - php
   php:
-#    image: php:8.2-fpm
+    image: sample-app-php:8.2-fpm
     build:
       dockerfile: ./php.Dockerfile
+    container_name: sample-app-php-1
     environment:
       <<: *app-env
       FOO: ANOTHER
       BAZZ: "Lorem ipsum"
     volumes:
       - .:/app
+    entrypoint: ["php-entrypoint"]
+    command: ["php-fpm"]
 
   mysql:
     image: mysql:8.1
+    container_name: sample-app-mysql-1
     ports:
       - "23306:3306"
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
@@ -35,6 +40,7 @@ services:
 
   mailcatcher:
     image: schickling/mailcatcher
+    container_name: sample-app-mailcatcher-1
     ports:
       - 1080:1080
 
