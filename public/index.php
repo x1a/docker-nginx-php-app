@@ -2,11 +2,14 @@
 <hr>
 MYSQL:<br>
 <?php
+$logfile = dirname(__DIR__) . '/var/logfile.log';
 //$pdo = new PDO("mysql:host=mysql;dbname=test", 'root', 'secret');
 $pdo = new PDO("mysql:host=mysql;dbname=test", 'test', 'abcd');
 $rs = $pdo->query("SELECT * FROM test");
 foreach ($rs as $row) {
-    printf("<br>%s. %s", $row['id'], $row['name']);
+    $line = sprintf("--> %s. %s\n", $row['id'], $row['name']);
+    echo '<br>', $line;
+    error_log($line, 3, $logfile);
 }
 ?>
 <hr>
