@@ -1,3 +1,4 @@
+<img src="/img/bfly.png" style="display: block; float: right">
 <a href="info.php">php info</a>
 <hr>
 MYSQL:<br>
